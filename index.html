@@ -289,6 +289,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}}
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function initials(n){const p=n.trim().split(/\s+/);return((p[0]?.[0]||"")+(p.length>1?p[p.length-1][0]:"")).toUpperCase();}
+const avInit=name=>'<span style="font-family:system-ui,-apple-system,Helvetica,Arial,sans-serif;font-style:normal;font-weight:700;line-height:1">'+esc(initials(name))+'</span>';
 function avColor(id){let h=0;for(const c of id)h=(h*31+c.charCodeAt(0))>>>0;return AV[h%AV.length];}
 function notesFor(id){return db.notes.filter(n=>n.studentId===id);}
 function lastTs(id){const n=notesFor(id);return n.length?Math.max(...n.map(x=>x.ts)):0;}
@@ -378,7 +379,7 @@ function renderHome(){
   for(const s of list){
     const c=notesFor(s.id).length,lt=lastTs(s.id);
     const hasOpen=db.notes.some(n=>n.studentId===s.id&&n.flag&&!n.flagDone);
-    html+=`<button class="tile" data-open="${s.id}"><div class="avatar" style="background:${avColor(s.id)}">${esc(initials(s.name))}</div><div class="nm">${esc(s.name)}</div><div class="meta">${hasOpen?'<span class="dot"></span>':''}<span>${relTime(lt)}</span>`+(c?`<span class="count">${c}</span>`:'')+`</div></button>`;
+    html+=`<button class="tile" data-open="${s.id}"><div class="avatar" style="background:${avColor(s.id)}">${avInit(s.name)}</div><div class="nm">${esc(s.name)}</div><div class="meta">${hasOpen?'<span class="dot"></span>':''}<span>${relTime(lt)}</span>`+(c?`<span class="count">${c}</span>`:'')+`</div></button>`;
   }
   html+=`<button class="tile add" data-add><div class="plus">${svgPlus()}</div><span>Add students</span></button></div>`;
   roster.innerHTML=html;
@@ -391,7 +392,7 @@ function renderStudent(){
   const s=db.students.find(x=>x.id===cur);if(!s){backHome();return;}
   const ns=notesFor(cur).sort((a,b)=>b.ts-a.ts),c=ns.length;
   const body=document.getElementById("student-body");
-  let h=`<div class="stu-hero"><div class="avatar" style="background:${avColor(s.id)}">${esc(initials(s.name))}</div><div><h2>${esc(s.name)}</h2><div class="sub">${c} ${c===1?"note":"notes"}${c?" · last "+relTime(lastTs(cur)):""}</div></div><button class="del" data-delstu aria-label="Remove student">${svgTrash()}</button></div>`;
+  let h=`<div class="stu-hero"><div class="avatar" style="background:${avColor(s.id)}">${avInit(s.name)}</div><div><h2>${esc(s.name)}</h2><div class="sub">${c} ${c===1?"note":"notes"}${c?" · last "+relTime(lastTs(cur)):""}</div></div><button class="del" data-delstu aria-label="Remove student">${svgTrash()}</button></div>`;
   h+=`<div class="compose"><div class="tags" id="tagrow">`+TAGS.map(t=>`<button class="tag" data-tag="${esc(t)}">${esc(t)}</button>`).join("")+`</div><div class="note-wrap"><textarea class="note" id="note" rows="2" placeholder="What happened? Tap the mic and talk, or just type…"></textarea><div class="interim" id="interim"></div></div><div class="compose-foot"><button class="flagbtn" id="flagbtn">${svgFlag()} Follow-up</button><div class="spacer"></div><button class="mic" id="mic" aria-label="Dictate">${svgMic()}</button><button class="savebtn" id="save" disabled>Save</button></div><div class="micnote" id="micnote"></div></div>`;
   if(c===0){
     h+=`<div class="empty" style="padding:30px 10px"><div class="big">${svgMic()}</div><h2>No notes yet</h2><p>Tap the mic and say what ${esc(s.name.split(" ")[0])} did today, or how you supported them.</p></div>`;
