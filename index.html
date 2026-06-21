@@ -166,18 +166,19 @@ textarea.note::placeholder{color:#9AA6A4}
 
 .scrim{position:fixed;inset:0;background:rgba(20,30,30,.4);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40;backdrop-filter:blur(2px)}
 .scrim.open{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--paper);border-radius:24px 24px 0 0;padding:8px 20px calc(24px + var(--safe-b));max-width:520px;margin:0 auto;transform:translateY(102%);transition:transform .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,.18);max-height:88vh;overflow-y:auto}
-.sheet.open{transform:translateY(0)}
+.sheet{position:fixed;left:50%;right:auto;bottom:calc(12px + var(--safe-b));width:calc(100% - 24px);max-width:496px;z-index:50;background:var(--paper);border-radius:24px;border:1px solid var(--line);padding:8px 20px 22px;margin:0;transform:translateX(-50%) translateY(calc(100% + 32px));transition:transform .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,.1),0 8px 28px rgba(20,40,40,.12);max-height:calc(88vh - 24px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sheet.open{transform:translateX(-50%) translateY(0)}
 .grab{width:38px;height:4px;border-radius:4px;background:#D4CDBF;margin:8px auto 16px}
 .sheet h2{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:0 0 4px}
 .sheet p.hint{font-size:13.5px;color:var(--muted);margin:0 0 16px}
 .sheet label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.04em}
 .sheet textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:15px;background:var(--card);color:var(--ink);min-height:120px;resize:vertical;line-height:1.5}
 .sheet .row{display:flex;gap:10px;margin-top:18px}
+.sheet .row.sheet-foot{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);margin-bottom:0}
 .sheet .row .btn-primary{flex:1;text-align:center}
 .sheet .row .cancel{padding:13px 18px;color:var(--muted);font-weight:600;font-size:15px}
 .menu-item{display:flex;align-items:center;gap:13px;width:100%;text-align:left;padding:15px 4px;border-bottom:1px solid var(--line);font-size:15.5px;font-weight:500}
-.menu-item:last-child{border-bottom:none}
+.menu-item:last-child{border-bottom:none;margin-bottom:4px}
 .menu-item .mi-ic{width:38px;height:38px;border-radius:11px;background:rgba(14,93,102,.07);display:grid;place-items:center;color:var(--teal);flex:none}
 .menu-item .mi-ic svg{width:19px;height:19px}
 .menu-item.danger{color:#B6433A}
@@ -367,7 +368,7 @@ textarea.note::placeholder{color:#9AA6A4}
     </div>
     <div class="qmicnote" id="quick-micnote"></div>
   </div>
-  <div class="row"><button class="cancel" data-close>Close</button></div>
+  <div class="row sheet-foot"><button class="cancel" data-close>Close</button></div>
 </div>
 
 <div class="sheet" id="sheet-bulk">
@@ -396,7 +397,7 @@ textarea.note::placeholder{color:#9AA6A4}
     </div>
     <div class="qmicnote" id="bulk-micnote"></div>
   </div>
-  <div class="row"><button class="cancel" data-close>Close</button></div>
+  <div class="row sheet-foot"><button class="cancel" data-close>Close</button></div>
 </div>
 
 <div class="sheet" id="sheet-menu">
@@ -425,6 +426,7 @@ textarea.note::placeholder{color:#9AA6A4}
   <button class="menu-item" id="exp-csv"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span><span>Download spreadsheet (CSV)<small>Date, student, tags, note</small></span></button>
   <button class="menu-item" id="exp-txt"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span>Download text file<small>Plain readable log</small></span></button>
   <button class="menu-item danger" id="exp-clear"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span><span>Clear everything<small>Delete all students and notes</small></span></button>
+  <div class="row sheet-foot"><button class="cancel" data-close>Close</button></div>
 </div>
 
 <div class="toast" id="toast"></div>
