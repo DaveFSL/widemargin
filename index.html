@@ -166,15 +166,17 @@ textarea.note::placeholder{color:#9AA6A4}
 
 .scrim{position:fixed;inset:0;background:rgba(20,30,30,.4);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40;backdrop-filter:blur(2px)}
 .scrim.open{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:50%;right:auto;bottom:calc(12px + var(--safe-b));width:calc(100% - 24px);max-width:496px;z-index:50;background:var(--paper);border-radius:24px;border:1px solid var(--line);padding:8px 20px 22px;margin:0;transform:translateX(-50%) translateY(calc(100% + 32px));transition:transform .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,.1),0 8px 28px rgba(20,40,40,.12);max-height:calc(88vh - 24px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sheet{position:fixed;left:50%;right:auto;bottom:calc(14px + var(--safe-b));width:calc(100% - 28px);max-width:496px;z-index:50;background:var(--paper);border-radius:24px;border:1px solid #D4CDBF;padding:8px 0 0;margin:0;display:flex;flex-direction:column;overflow:hidden;transform:translateX(-50%) translateY(calc(100% + 40px));transition:transform .3s cubic-bezier(.2,.8,.2,1);box-shadow:0 12px 40px rgba(20,40,40,.16),0 0 0 1px rgba(255,255,255,.6) inset;max-height:calc(90vh - 20px)}
 .sheet.open{transform:translateX(-50%) translateY(0)}
-.grab{width:38px;height:4px;border-radius:4px;background:#D4CDBF;margin:8px auto 16px}
+.sheet-scroll{flex:1 1 auto;overflow-y:auto;min-height:0;-webkit-overflow-scrolling:touch;padding:0 20px 12px}
+.sheet-foot{flex:none;padding:14px 20px calc(16px + var(--safe-b));border-top:1px solid var(--line);background:var(--paper);border-radius:0 0 23px 23px}
+.sheet-foot .row{margin-top:0}
+.grab{width:38px;height:4px;border-radius:4px;background:#D4CDBF;margin:8px auto 12px;flex:none}
 .sheet h2{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:0 0 4px}
 .sheet p.hint{font-size:13.5px;color:var(--muted);margin:0 0 16px}
 .sheet label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.04em}
 .sheet textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:15px;background:var(--card);color:var(--ink);min-height:120px;resize:vertical;line-height:1.5}
 .sheet .row{display:flex;gap:10px;margin-top:18px}
-.sheet .row.sheet-foot{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);margin-bottom:0}
 .sheet .row .btn-primary{flex:1;text-align:center}
 .sheet .row .cancel{padding:13px 18px;color:var(--muted);font-weight:600;font-size:15px}
 .menu-item{display:flex;align-items:center;gap:13px;width:100%;text-align:left;padding:15px 4px;border-bottom:1px solid var(--line);font-size:15.5px;font-weight:500}
@@ -246,8 +248,10 @@ textarea.note::placeholder{color:#9AA6A4}
 /* ---------- sheet select ---------- */
 .sheet select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;-webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236B7A78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:40px}
-.sheet .qcompose{margin-top:6px}
-.qmicnote{font-size:11.5px;color:#9AA6A4;text-align:center;margin-top:8px}
+.sheet .qcompose{margin-top:6px;margin-bottom:0}
+.sheet .compose{margin-bottom:0;overflow:visible}
+.sheet .tags{max-height:108px;overflow-y:auto;padding-bottom:2px}
+.qmicnote{font-size:11.5px;color:#9AA6A4;text-align:center;margin-top:8px;padding-bottom:2px}
 </style>
 </head>
 <body>
@@ -336,97 +340,105 @@ textarea.note::placeholder{color:#9AA6A4}
 
 <div class="sheet" id="sheet-add">
   <div class="grab"></div>
-  <h2>Add students</h2>
-  <p class="hint">Add one name, or paste a class list — one name per line.</p>
-  <label>Names</label>
-  <textarea id="add-names" placeholder="Mia Tran&#10;Jack Reilly&#10;Aaliyah Singh"></textarea>
-  <div class="row"><button class="cancel" data-close>Cancel</button><button class="btn-primary" id="add-confirm">Add to class</button></div>
+  <div class="sheet-scroll">
+    <h2>Add students</h2>
+    <p class="hint">Add one name, or paste a class list — one name per line.</p>
+    <label>Names</label>
+    <textarea id="add-names" placeholder="Mia Tran&#10;Jack Reilly&#10;Aaliyah Singh"></textarea>
+  </div>
+  <div class="sheet-foot"><div class="row"><button class="cancel" data-close>Cancel</button><button class="btn-primary" id="add-confirm">Add to class</button></div></div>
 </div>
 
 <div class="sheet" id="sheet-quick">
   <div class="grab"></div>
-  <h2>Quick note</h2>
-  <p class="hint">Log a note without leaving the class list.</p>
-  <label>Student</label>
-  <select id="quick-student"></select>
-  <div class="compose qcompose">
-    <div class="tags" id="quick-tagrow"></div>
-    <div class="note-wrap">
-      <textarea class="note" id="quick-note" rows="2" placeholder="What happened? Tap the mic and talk, or just type…"></textarea>
-      <div class="interim" id="quick-interim"></div>
+  <div class="sheet-scroll">
+    <h2>Quick note</h2>
+    <p class="hint">Log a note without leaving the class list.</p>
+    <label>Student</label>
+    <select id="quick-student"></select>
+    <div class="compose qcompose">
+      <div class="tags" id="quick-tagrow"></div>
+      <div class="note-wrap">
+        <textarea class="note" id="quick-note" rows="2" placeholder="What happened? Tap the mic and talk, or just type…"></textarea>
+        <div class="interim" id="quick-interim"></div>
+      </div>
+      <div class="compose-foot">
+        <button class="flagbtn" id="quick-flag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Follow-up
+        </button>
+        <div class="spacer"></div>
+        <button class="mic" id="quick-mic" aria-label="Dictate">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+        </button>
+        <button class="savebtn" id="quick-save" disabled>Save</button>
+      </div>
+      <div class="qmicnote" id="quick-micnote"></div>
     </div>
-    <div class="compose-foot">
-      <button class="flagbtn" id="quick-flag">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-        Follow-up
-      </button>
-      <div class="spacer"></div>
-      <button class="mic" id="quick-mic" aria-label="Dictate">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-      </button>
-      <button class="savebtn" id="quick-save" disabled>Save</button>
-    </div>
-    <div class="qmicnote" id="quick-micnote"></div>
   </div>
-  <div class="row sheet-foot"><button class="cancel" data-close>Close</button></div>
+  <div class="sheet-foot"><button class="cancel" data-close>Close</button></div>
 </div>
 
 <div class="sheet" id="sheet-bulk">
   <div class="grab"></div>
-  <h2>Group note</h2>
-  <p class="hint">Log the same note for several students — great for group work.</p>
-  <label>Students</label>
-  <div class="bulk-bar"><button type="button" id="bulk-all">Select all</button><button type="button" id="bulk-none">Clear</button></div>
-  <div class="bulk-pick" id="bulk-students"></div>
-  <div class="compose qcompose">
-    <div class="tags" id="bulk-tagrow"></div>
-    <div class="note-wrap">
-      <textarea class="note" id="bulk-note" rows="2" placeholder="What happened in the group? Tap the mic and talk, or just type…"></textarea>
-      <div class="interim" id="bulk-interim"></div>
+  <div class="sheet-scroll">
+    <h2>Group note</h2>
+    <p class="hint">Log the same note for several students — great for group work.</p>
+    <label>Students</label>
+    <div class="bulk-bar"><button type="button" id="bulk-all">Select all</button><button type="button" id="bulk-none">Clear</button></div>
+    <div class="bulk-pick" id="bulk-students"></div>
+    <div class="compose qcompose">
+      <div class="tags" id="bulk-tagrow"></div>
+      <div class="note-wrap">
+        <textarea class="note" id="bulk-note" rows="2" placeholder="What happened in the group? Tap the mic and talk, or just type…"></textarea>
+        <div class="interim" id="bulk-interim"></div>
+      </div>
+      <div class="compose-foot">
+        <button class="flagbtn" id="bulk-flag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          Follow-up
+        </button>
+        <div class="spacer"></div>
+        <button class="mic" id="bulk-mic" aria-label="Dictate">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+        </button>
+        <button class="savebtn" id="bulk-save" disabled>Save</button>
+      </div>
+      <div class="qmicnote" id="bulk-micnote"></div>
     </div>
-    <div class="compose-foot">
-      <button class="flagbtn" id="bulk-flag">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-        Follow-up
-      </button>
-      <div class="spacer"></div>
-      <button class="mic" id="bulk-mic" aria-label="Dictate">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-      </button>
-      <button class="savebtn" id="bulk-save" disabled>Save</button>
-    </div>
-    <div class="qmicnote" id="bulk-micnote"></div>
   </div>
-  <div class="row sheet-foot"><button class="cancel" data-close>Close</button></div>
+  <div class="sheet-foot"><button class="cancel" data-close>Close</button></div>
 </div>
 
 <div class="sheet" id="sheet-menu">
   <div class="grab"></div>
-  <h2>Settings</h2>
-  <p class="hint">Everything is stored only on this device. Nothing is uploaded.</p>
-  <div class="menu-sec">Privacy</div>
-  <button class="menu-item" id="pin-set"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span id="pin-set-label">Set a teacher PIN<small>Lock the app on shared devices</small></span></button>
-  <button class="menu-item" id="pin-lock" hidden><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span>Lock now<small>Require the PIN to reopen</small></span></button>
-  <button class="menu-item danger" id="pin-off" hidden><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></span><span>Turn off PIN</span></button>
-  <div id="autolock-row" hidden>
-    <label style="display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:16px 4px 8px;text-transform:uppercase;letter-spacing:.04em">Auto-lock after idle</label>
-    <div class="seg" id="autolock-seg">
-      <button data-min="0">Off</button>
-      <button data-min="1">1 min</button>
-      <button data-min="5">5 min</button>
-      <button data-min="15">15 min</button>
+  <div class="sheet-scroll">
+    <h2>Settings</h2>
+    <p class="hint">Everything is stored only on this device. Nothing is uploaded.</p>
+    <div class="menu-sec">Privacy</div>
+    <button class="menu-item" id="pin-set"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span id="pin-set-label">Set a teacher PIN<small>Lock the app on shared devices</small></span></button>
+    <button class="menu-item" id="pin-lock" hidden><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span>Lock now<small>Require the PIN to reopen</small></span></button>
+    <button class="menu-item danger" id="pin-off" hidden><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></span><span>Turn off PIN</span></button>
+    <div id="autolock-row" hidden>
+      <label style="display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:16px 4px 8px;text-transform:uppercase;letter-spacing:.04em">Auto-lock after idle</label>
+      <div class="seg" id="autolock-seg">
+        <button data-min="0">Off</button>
+        <button data-min="1">1 min</button>
+        <button data-min="5">5 min</button>
+        <button data-min="15">15 min</button>
+      </div>
     </div>
+    <div class="menu-sec">Backup</div>
+    <button class="menu-item" id="bk-save"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span><span>Download backup<small>One file with all students &amp; notes</small></span></button>
+    <button class="menu-item" id="bk-restore"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span><span>Restore from backup<small>Load a backup file onto this device</small></span></button>
+    <input type="file" id="bk-file" accept="application/json,.json" hidden>
+    <div class="menu-sec">Export &amp; data</div>
+    <button class="menu-item" id="exp-copy"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span><span>Copy all notes<small>To paste anywhere</small></span></button>
+    <button class="menu-item" id="exp-csv"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span><span>Download spreadsheet (CSV)<small>Date, student, tags, note</small></span></button>
+    <button class="menu-item" id="exp-txt"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span>Download text file<small>Plain readable log</small></span></button>
+    <button class="menu-item danger" id="exp-clear"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span><span>Clear everything<small>Delete all students and notes</small></span></button>
   </div>
-  <div class="menu-sec">Backup</div>
-  <button class="menu-item" id="bk-save"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span><span>Download backup<small>One file with all students &amp; notes</small></span></button>
-  <button class="menu-item" id="bk-restore"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span><span>Restore from backup<small>Load a backup file onto this device</small></span></button>
-  <input type="file" id="bk-file" accept="application/json,.json" hidden>
-  <div class="menu-sec">Export &amp; data</div>
-  <button class="menu-item" id="exp-copy"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span><span>Copy all notes<small>To paste anywhere</small></span></button>
-  <button class="menu-item" id="exp-csv"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span><span>Download spreadsheet (CSV)<small>Date, student, tags, note</small></span></button>
-  <button class="menu-item" id="exp-txt"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span>Download text file<small>Plain readable log</small></span></button>
-  <button class="menu-item danger" id="exp-clear"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span><span>Clear everything<small>Delete all students and notes</small></span></button>
-  <div class="row sheet-foot"><button class="cancel" data-close>Close</button></div>
+  <div class="sheet-foot"><button class="cancel" data-close>Close</button></div>
 </div>
 
 <div class="toast" id="toast"></div>
