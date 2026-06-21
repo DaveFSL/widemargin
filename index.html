@@ -52,9 +52,22 @@ input,textarea{font-family:inherit}
 .brand h1{font-family:'Fraunces',serif;font-weight:600;font-size:21px;margin:0;letter-spacing:-.01em}
 .brand small{display:block;font-size:11.5px;color:var(--muted);font-weight:500;margin-top:-2px;letter-spacing:.01em}
 .bar .spacer{flex:1}
-.iconbtn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:var(--teal);background:rgba(14,93,102,.06)}
+.iconbtn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:var(--teal);background:rgba(14,93,102,.06);position:relative}
 .iconbtn:active{transform:scale(.94)}
 .iconbtn svg{width:20px;height:20px}
+.iconbtn[data-tip]::after{content:attr(data-tip);position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:90}
+.iconbtn[data-tip]:hover::after,.iconbtn[data-tip]:focus-visible::after{opacity:1}
+.tag.tag-add{border-style:dashed;color:var(--teal);background:transparent}
+.tag-add-inp{font-size:12.5px;font-weight:500;padding:6px 11px;border-radius:20px;border:1px solid var(--teal);background:var(--card);color:var(--ink);width:108px;min-width:88px}
+.nc-edit .tags{margin-bottom:10px}
+.nc-edit .flagbtn{margin-bottom:10px}
+.bulk-pick{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px;max-height:168px;overflow-y:auto;padding:2px}
+.bpick{font-size:13px;font-weight:500;padding:8px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);transition:.12s}
+.bpick.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.bulk-bar{display:flex;gap:8px;margin-bottom:12px}
+.bulk-bar button{font-size:12.5px;font-weight:600;color:var(--teal);padding:6px 10px;border-radius:9px;background:rgba(14,93,102,.06)}
+.sum-tagfilt{margin-bottom:14px}
+.sum-tagfilt .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 8px 2px}
 
 .shead{display:flex;align-items:center;gap:12px;padding:8px 2px 14px}
 .backbtn{display:flex;align-items:center;gap:5px;color:var(--teal);font-weight:600;font-size:15px;padding:8px 12px 8px 6px;border-radius:12px;margin-left:-6px}
@@ -261,13 +274,16 @@ textarea.note::placeholder{color:#9AA6A4}
         <div><h1>Wide Margin</h1><small>Student notes, by voice</small></div>
       </div>
       <div class="spacer"></div>
-      <button class="iconbtn" id="btn-quick" aria-label="Quick note">
+      <button class="iconbtn" id="btn-quick" aria-label="Quick note" data-tip="Quick note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
       </button>
-      <button class="iconbtn" id="btn-summary" aria-label="Daily and weekly summary">
+      <button class="iconbtn" id="btn-bulk" aria-label="Group note" data-tip="Group note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </button>
+      <button class="iconbtn" id="btn-summary" aria-label="Summary" data-tip="Summary">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3M16 2v3M3 9h18"/><rect x="3" y="4" width="18" height="17" rx="2"/></svg>
       </button>
-      <button class="iconbtn" id="btn-menu" aria-label="Settings and export">
+      <button class="iconbtn" id="btn-menu" aria-label="Settings" data-tip="Settings">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
       </button>
     </div>
@@ -354,6 +370,35 @@ textarea.note::placeholder{color:#9AA6A4}
   <div class="row"><button class="cancel" data-close>Close</button></div>
 </div>
 
+<div class="sheet" id="sheet-bulk">
+  <div class="grab"></div>
+  <h2>Group note</h2>
+  <p class="hint">Log the same note for several students — great for group work.</p>
+  <label>Students</label>
+  <div class="bulk-bar"><button type="button" id="bulk-all">Select all</button><button type="button" id="bulk-none">Clear</button></div>
+  <div class="bulk-pick" id="bulk-students"></div>
+  <div class="compose qcompose">
+    <div class="tags" id="bulk-tagrow"></div>
+    <div class="note-wrap">
+      <textarea class="note" id="bulk-note" rows="2" placeholder="What happened in the group? Tap the mic and talk, or just type…"></textarea>
+      <div class="interim" id="bulk-interim"></div>
+    </div>
+    <div class="compose-foot">
+      <button class="flagbtn" id="bulk-flag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        Follow-up
+      </button>
+      <div class="spacer"></div>
+      <button class="mic" id="bulk-mic" aria-label="Dictate">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+      </button>
+      <button class="savebtn" id="bulk-save" disabled>Save</button>
+    </div>
+    <div class="qmicnote" id="bulk-micnote"></div>
+  </div>
+  <div class="row"><button class="cancel" data-close>Close</button></div>
+</div>
+
 <div class="sheet" id="sheet-menu">
   <div class="grab"></div>
   <h2>Settings</h2>
@@ -386,17 +431,19 @@ textarea.note::placeholder{color:#9AA6A4}
 
 <script>
 "use strict";
-const KEY="widemargin.v1", PINKEY="widemargin.pin", PINLENKEY="widemargin.pinlen", AUTOLOCKKEY="widemargin.autolock";
+const KEY="widemargin.v1", PINKEY="widemargin.pin", PINLENKEY="widemargin.pinlen", AUTOLOCKKEY="widemargin.autolock", CUSTOMTAGSKEY="widemargin.customtags";
 const TAGS=["1:1","Small group","Extension","Wellbeing","Reading","Writing","Maths","Adjustment","Behaviour","Parent contact"];
 const AV=["#3E8E9C","#C9803E","#5C7E4A","#A35A6E","#4E6BA8","#A88A3E","#7A6AA6","#3E9C7C"];
 
 let db=load();
 let cur=null, compose={tags:new Set(),flag:false};
 let listening=false, recog=null, interimEl=null, noteEl=null, micEl=null, micNoteEl=null;
-let qcompose={tags:new Set(),flag:false};
-let summaryRange="today", showDone=false;
+let qcompose={tags:new Set(),flag:false}, bcompose={tags:new Set(),flag:false}, bulkSel=new Set();
+let summaryRange="today", summaryTagFilter=new Set(), showDone=false;
 let autoLockMin=0, idleTimer=null;
+let customTags=[];
 try{const al=parseInt(localStorage.getItem(AUTOLOCKKEY),10);if(!isNaN(al))autoLockMin=al;}catch(e){}
+try{customTags=JSON.parse(localStorage.getItem(CUSTOMTAGSKEY))||[];if(!Array.isArray(customTags))customTags=[];}catch(e){customTags=[];}
 
 /* glyph: page with a wide margin */
 const GLYPH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="10" y1="3.5" x2="10" y2="20.5"/><line x1="13" y1="9" x2="16.5" y2="9"/><line x1="13" y1="13" x2="16.5" y2="13"/></svg>';
@@ -416,6 +463,19 @@ function lastTs(id){const n=notesFor(id);return n.length?Math.max(...n.map(x=>x.
 function relTime(ts){if(!ts)return"No notes yet";const d=Date.now()-ts,day=864e5;if(d<6e4)return"Just now";if(d<36e5)return Math.floor(d/6e4)+"m ago";if(d<day)return Math.floor(d/36e5)+"h ago";if(d<2*day)return"Yesterday";if(d<7*day)return Math.floor(d/day)+"d ago";return new Date(ts).toLocaleDateString("en-AU",{day:"numeric",month:"short"});}
 function dayLabel(ts){const t=new Date(ts),n=new Date(),same=(a,b)=>a.toDateString()===b.toDateString();if(same(t,n))return"Today";const y=new Date(n);y.setDate(n.getDate()-1);if(same(t,y))return"Yesterday";return t.toLocaleDateString("en-AU",{weekday:"long",day:"numeric",month:"long"});}
 const fmtTime=ts=>new Date(ts).toLocaleTimeString("en-AU",{hour:"numeric",minute:"2-digit"});
+
+/* ---------- tags ---------- */
+function allTags(){const seen=new Set(),out=[];for(const t of [...TAGS,...customTags,...db.notes.flatMap(n=>n.tags||[])]){const k=String(t).trim();if(k&&!seen.has(k.toLowerCase())){seen.add(k.toLowerCase());out.push(k);}}return out;}
+function saveCustomTags(){try{localStorage.setItem(CUSTOMTAGSKEY,JSON.stringify(customTags));}catch(e){}}
+function addCustomTag(raw){const t=raw.trim();if(!t||t.length>40)return false;if(allTags().some(x=>x.toLowerCase()===t.toLowerCase()))return false;customTags.push(t);saveCustomTags();return true;}
+function tagRowHTML(selectedSet){return allTags().map(t=>`<button type="button" class="tag ${selectedSet.has(t)?"on":""}" data-tag="${esc(t)}">${esc(t)}</button>`).join("")+'<button type="button" class="tag tag-add" data-addtag>+ Tag</button>';}
+function wireTagRow(container,selectedSet,onUpdate){
+  if(!container)return;
+  container.querySelectorAll("[data-tag]").forEach(b=>{b.onclick=()=>{const t=b.dataset.tag;if(selectedSet.has(t)){selectedSet.delete(t);b.classList.remove("on");}else{selectedSet.add(t);b.classList.add("on");}onUpdate&&onUpdate();};});
+  const addBtn=container.querySelector("[data-addtag]");
+  if(addBtn)addBtn.onclick=()=>{const inp=document.createElement("input");inp.className="tag-add-inp";inp.placeholder="New tag…";inp.maxLength=40;addBtn.replaceWith(inp);inp.focus();const commit=()=>{const v=inp.value.trim();if(v&&addCustomTag(v)){selectedSet.add(v);toast("Tag added");}else if(v)toast("Tag already exists");mountTagRow(container,selectedSet,onUpdate);};inp.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();commit();}if(e.key==="Escape")mountTagRow(container,selectedSet,onUpdate);};inp.onblur=()=>setTimeout(commit,120);};
+}
+function mountTagRow(container,selectedSet,onUpdate){container.innerHTML=tagRowHTML(selectedSet);wireTagRow(container,selectedSet,onUpdate);}
 
 /* ---------- PIN ---------- */
 function hashPin(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))>>>0;return("wm"+h.toString(16));}
@@ -525,7 +585,7 @@ function renderStudent(){
   const ns=notesFor(cur).sort((a,b)=>b.ts-a.ts),c=ns.length;
   const body=document.getElementById("student-body");
   let h=`<div class="stu-hero"><div class="avatar" style="background:${avColor(s.id)}">${avInit(s.name)}</div><div><h2>${esc(s.name)}</h2><div class="sub">${c} ${c===1?"note":"notes"}${c?" · last "+relTime(lastTs(cur)):""}</div></div><button class="del" data-delstu aria-label="Remove student">${svgTrash()}</button></div>`;
-  h+=`<div class="compose"><div class="tags" id="tagrow">`+TAGS.map(t=>`<button class="tag" data-tag="${esc(t)}">${esc(t)}</button>`).join("")+`</div><div class="note-wrap"><textarea class="note" id="note" rows="2" placeholder="What happened? Tap the mic and talk, or just type…"></textarea><div class="interim" id="interim"></div></div><div class="compose-foot"><button class="flagbtn" id="flagbtn">${svgFlag()} Follow-up</button><div class="spacer"></div><button class="mic" id="mic" aria-label="Dictate">${svgMic()}</button><button class="savebtn" id="save" disabled>Save</button></div><div class="micnote" id="micnote"></div></div>`;
+  h+=`<div class="compose"><div class="tags" id="tagrow"></div><div class="note-wrap"><textarea class="note" id="note" rows="2" placeholder="What happened? Tap the mic and talk, or just type…"></textarea><div class="interim" id="interim"></div></div><div class="compose-foot"><button class="flagbtn" id="flagbtn">${svgFlag()} Follow-up</button><div class="spacer"></div><button class="mic" id="mic" aria-label="Dictate">${svgMic()}</button><button class="savebtn" id="save" disabled>Save</button></div><div class="micnote" id="micnote"></div></div>`;
   if(c===0){
     h+=`<div class="empty" style="padding:30px 10px"><div class="big">${svgMic()}</div><h2>No notes yet</h2><p>Tap the mic and say what ${esc(s.name.split(" ")[0])} did today, or how you supported them.</p></div>`;
   }else{
@@ -549,7 +609,7 @@ function wireCompose(){
   const refresh=()=>{saveBtn.disabled=!noteEl.value.trim();};
   noteEl.addEventListener("input",refresh);
   noteEl.addEventListener("input",()=>{noteEl.style.height="auto";noteEl.style.height=noteEl.scrollHeight+"px";});
-  document.getElementById("tagrow").querySelectorAll("[data-tag]").forEach(b=>{b.onclick=()=>{const t=b.dataset.tag;if(compose.tags.has(t)){compose.tags.delete(t);b.classList.remove("on");}else{compose.tags.add(t);b.classList.add("on");}};});
+  mountTagRow(document.getElementById("tagrow"),compose.tags,null);
   const flagBtn=document.getElementById("flagbtn");flagBtn.onclick=()=>{compose.flag=!compose.flag;flagBtn.classList.toggle("on",compose.flag);};
   document.getElementById("mic").onclick=toggleListen;saveBtn.onclick=saveNote;setupRecog();
 }
@@ -583,10 +643,13 @@ function delStudent(){const s=db.students.find(x=>x.id===cur);if(!s)return;if(!c
 function delNote(id){if(!confirm("Delete this note?"))return;db.notes=db.notes.filter(n=>n.id!==id);save();renderStudent();toast("Note deleted");}
 function startEdit(id){
   const card=document.querySelector(`[data-card="${id}"]`),n=db.notes.find(x=>x.id===id);if(!card||!n)return;
-  card.innerHTML=`<div class="nc-edit"><textarea>${esc(n.text)}</textarea><div class="nc-edit-row"><button class="cancel">Cancel</button><button class="savebtn">Save</button></div></div>`;
+  const editTags=new Set(n.tags||[]);let editFlag=!!n.flag;
+  card.innerHTML=`<div class="nc-edit"><div class="tags" id="edit-tagrow"></div><button type="button" class="flagbtn ${editFlag?"on":""}" id="edit-flag">${svgFlag()} Follow-up</button><textarea>${esc(n.text)}</textarea><div class="nc-edit-row"><button type="button" class="cancel">Cancel</button><button type="button" class="savebtn">Save</button></div></div>`;
+  mountTagRow(document.getElementById("edit-tagrow"),editTags,null);
+  const flagBtn=card.querySelector("#edit-flag");flagBtn.onclick=()=>{editFlag=!editFlag;flagBtn.classList.toggle("on",editFlag);};
   const ta=card.querySelector("textarea");ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);
   card.querySelector(".cancel").onclick=()=>renderStudent();
-  card.querySelector(".savebtn").onclick=()=>{const v=ta.value.trim();if(v){n.text=v;n.edited=Date.now();save();}renderStudent();};
+  card.querySelector(".savebtn").onclick=()=>{const v=ta.value.trim();if(v){n.text=v;n.tags=[...editTags];n.flag=editFlag;n.edited=Date.now();save();}renderStudent();};
 }
 function toggleDone(id){const n=db.notes.find(x=>x.id===id);if(!n)return;n.flagDone=!n.flagDone;save();renderHome();toast(n.flagDone?"Follow-up done":"Follow-up reopened");}
 
@@ -618,17 +681,24 @@ function syncRangeSeg(){
     if(!t.value)t.value=new Date().toISOString().slice(0,10);
     if(!f.value){const d=new Date();d.setDate(d.getDate()-7);f.value=d.toISOString().slice(0,10);}}
 }
-function openSummary(){stopListening();closeSheets();summaryRange="today";syncRangeSeg();showView("view-summary");renderSummary();window.scrollTo(0,0);}
+function openSummary(){stopListening();closeSheets();summaryRange="today";summaryTagFilter=new Set();syncRangeSeg();showView("view-summary");renderSummary();window.scrollTo(0,0);}
+function summaryInRange(){const[a,b]=rangeBounds();return n=>n.ts>=a&&n.ts<=b;}
+function summaryNotes(){const inR=summaryInRange();return db.notes.filter(n=>inR(n)&&(!summaryTagFilter.size||(n.tags||[]).some(t=>summaryTagFilter.has(t))));}
 function renderSummary(){
-  const[a,b]=rangeBounds();const inR=n=>n.ts>=a&&n.ts<=b;
-  const notes=db.notes.filter(inR);
+  const inR=summaryInRange();
+  const inRange=db.notes.filter(inR);
+  const notes=summaryNotes();
+  const tagsInRange=[...new Set(inRange.flatMap(n=>n.tags||[]))].sort((a,b)=>a.localeCompare(b));
   const fups=notes.filter(n=>n.flag&&!n.flagDone).length;
   const stuCount=new Set(notes.map(n=>n.studentId)).size;
   let h=`<div class="sum-stats"><div class="statcard"><div class="num">${notes.length}</div><div class="lbl">${notes.length===1?"note":"notes"}</div></div><div class="statcard"><div class="num">${stuCount}</div><div class="lbl">${stuCount===1?"student":"students"}</div></div><div class="statcard"><div class="num">${fups}</div><div class="lbl">open follow-up${fups===1?"":"s"}</div></div></div>`;
+  if(tagsInRange.length){
+    h+=`<div class="sum-tagfilt"><div class="lbl">Filter by tag</div><div class="tags">`+tagsInRange.map(t=>`<button type="button" class="tag ${summaryTagFilter.has(t)?"on":""}" data-sumtag="${esc(t)}">${esc(t)}</button>`).join("")+(summaryTagFilter.size?`<button type="button" class="tag tag-add" data-sumtag-clear>Clear</button>`:"")+`</div></div>`;
+  }
   h+=`<div class="sum-actions"><button data-sumact="copy">${svgCopy()} Copy</button><button data-sumact="csv">${svgFile()} CSV</button><button data-sumact="txt">${svgFile()} Text</button></div>`;
-  if(!notes.length){h+=`<div class="empty" style="padding:26px 10px"><div class="big">${svgCal()}</div><h2>Nothing in this range</h2><p>Pick a different range above, or log some notes first.</p></div>`;document.getElementById("summary-body").innerHTML=h;return;}
+  if(!notes.length){h+=`<div class="empty" style="padding:26px 10px"><div class="big">${svgCal()}</div><h2>Nothing in this range</h2><p>${summaryTagFilter.size?"Try clearing the tag filter, or pick a different range.":"Pick a different range above, or log some notes first."}</p></div>`;document.getElementById("summary-body").innerHTML=h;return;}
   for(const s of db.students.slice().sort((x,y)=>x.name.localeCompare(y.name))){
-    const ns=notesFor(s.id).filter(inR).sort((x,y)=>y.ts-x.ts);if(!ns.length)continue;
+    const ns=notesFor(s.id).filter(n=>inR(n)&&(!summaryTagFilter.size||(n.tags||[]).some(t=>summaryTagFilter.has(t)))).sort((x,y)=>y.ts-x.ts);if(!ns.length)continue;
     h+=`<div class="sum-stu"><div class="sname"><span class="av" style="background:${avColor(s.id)}">${avInit(s.name)}</span>${esc(s.name)}<span class="c">${ns.length} ${ns.length===1?"note":"notes"}</span></div>`;
     for(const n of ns)h+=noteCardRO(n);
     h+=`</div>`;
@@ -641,12 +711,14 @@ function noteCardRO(n){
   return `<div class="note-card ${n.flag&&!n.flagDone?"flagged":""}"><div class="nc-top"><span class="nc-time">${fmtTime(n.ts)}</span>${tags}${flag}</div><div class="nc-text">${esc(n.text)}</div></div>`;
 }
 function sumExport(kind){
-  const[a,b]=rangeBounds();const inR=n=>n.ts>=a&&n.ts<=b;
-  if(!db.notes.some(inR)){toast("No notes in this range");return;}
-  const label=rangeLabel(),slug=label.toLowerCase().replace(/\s+/g,"-");
-  if(kind==="copy")copyText(buildText(inR,"Summary — "+label));
-  else if(kind==="csv")download("wide-margin-"+slug+".csv",buildCSV(inR),"text/csv");
-  else download("wide-margin-"+slug+".txt",buildText(inR,"Summary — "+label),"text/plain");
+  const notes=summaryNotes();
+  if(!notes.length){toast("No notes in this range");return;}
+  const ids=new Set(notes.map(n=>n.id));
+  const filterFn=n=>ids.has(n.id);
+  const label=rangeLabel()+(summaryTagFilter.size?" — "+[...summaryTagFilter].join(", "):""),slug=label.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+  if(kind==="copy")copyText(buildText(filterFn,"Summary — "+label));
+  else if(kind==="csv")download("wide-margin-"+slug+".csv",buildCSV(filterFn),"text/csv");
+  else download("wide-margin-"+slug+".txt",buildText(filterFn,"Summary — "+label),"text/plain");
 }
 
 /* ---------- quick note ---------- */
@@ -656,7 +728,7 @@ function openQuick(){
   const sel=document.getElementById("quick-student");
   sel.innerHTML=db.students.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
   if(cur)sel.value=cur;
-  document.getElementById("quick-tagrow").innerHTML=TAGS.map(t=>`<button class="tag" data-qtag="${esc(t)}">${esc(t)}</button>`).join("");
+  mountTagRow(document.getElementById("quick-tagrow"),qcompose.tags,null);
   const note=document.getElementById("quick-note");note.value="";note.style.height="auto";
   document.getElementById("quick-interim").textContent="";
   document.getElementById("quick-flag").classList.remove("on");
@@ -669,7 +741,6 @@ function wireQuick(){
   micEl=document.getElementById("quick-mic");micNoteEl=document.getElementById("quick-micnote");
   const saveBtn=document.getElementById("quick-save");
   noteEl.oninput=()=>{saveBtn.disabled=!noteEl.value.trim();noteEl.style.height="auto";noteEl.style.height=noteEl.scrollHeight+"px";};
-  document.getElementById("quick-tagrow").querySelectorAll("[data-qtag]").forEach(b=>{b.onclick=()=>{const t=b.dataset.qtag;if(qcompose.tags.has(t)){qcompose.tags.delete(t);b.classList.remove("on");}else{qcompose.tags.add(t);b.classList.add("on");}};});
   const flagBtn=document.getElementById("quick-flag");flagBtn.onclick=()=>{qcompose.flag=!qcompose.flag;flagBtn.classList.toggle("on",qcompose.flag);};
   document.getElementById("quick-mic").onclick=toggleListen;
   saveBtn.onclick=saveQuick;setupRecog();
@@ -679,6 +750,40 @@ function saveQuick(){
   const sid=document.getElementById("quick-student").value;if(!sid)return;
   db.notes.push({id:uid(),studentId:sid,text,tags:[...qcompose.tags],flag:qcompose.flag,flagDone:false,ts:Date.now()});
   save();closeSheets();if(cur)renderStudent();else renderHome();toast("Note saved");
+}
+
+/* ---------- group / bulk note ---------- */
+function renderBulkPick(){
+  const box=document.getElementById("bulk-students");
+  box.innerHTML=db.students.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(s=>`<button type="button" class="bpick ${bulkSel.has(s.id)?"on":""}" data-bpick="${s.id}">${esc(s.name)}</button>`).join("");
+  box.querySelectorAll("[data-bpick]").forEach(b=>{b.onclick=()=>{const id=b.dataset.bpick;if(bulkSel.has(id)){bulkSel.delete(id);b.classList.remove("on");}else{bulkSel.add(id);b.classList.add("on");}document.getElementById("bulk-save").disabled=!document.getElementById("bulk-note").value.trim()||!bulkSel.size;};});
+}
+function openBulk(){
+  if(!db.students.length){toast("Add a student first");return;}
+  stopListening();bcompose={tags:new Set(),flag:false};bulkSel=new Set();
+  renderBulkPick();
+  mountTagRow(document.getElementById("bulk-tagrow"),bcompose.tags,null);
+  const note=document.getElementById("bulk-note");note.value="";note.style.height="auto";
+  document.getElementById("bulk-interim").textContent="";
+  document.getElementById("bulk-flag").classList.remove("on");
+  document.getElementById("bulk-save").disabled=true;
+  wireBulk();openSheet("sheet-bulk");setTimeout(()=>note.focus(),300);
+}
+function wireBulk(){
+  listening=false;
+  noteEl=document.getElementById("bulk-note");interimEl=document.getElementById("bulk-interim");
+  micEl=document.getElementById("bulk-mic");micNoteEl=document.getElementById("bulk-micnote");
+  const saveBtn=document.getElementById("bulk-save");
+  noteEl.oninput=()=>{saveBtn.disabled=!noteEl.value.trim()||!bulkSel.size;noteEl.style.height="auto";noteEl.style.height=noteEl.scrollHeight+"px";};
+  const flagBtn=document.getElementById("bulk-flag");flagBtn.onclick=()=>{bcompose.flag=!bcompose.flag;flagBtn.classList.toggle("on",bcompose.flag);};
+  document.getElementById("bulk-mic").onclick=toggleListen;
+  saveBtn.onclick=saveBulk;setupRecog();
+}
+function saveBulk(){
+  const note=document.getElementById("bulk-note"),text=note.value.trim();if(!text||!bulkSel.size)return;stopListening();
+  const ts=Date.now(),tags=[...bcompose.tags];
+  for(const sid of bulkSel)db.notes.push({id:uid(),studentId:sid,text,tags,flag:bcompose.flag,flagDone:false,ts});
+  save();closeSheets();if(cur)renderStudent();else renderHome();toast("Saved for "+bulkSel.size+" student"+(bulkSel.size>1?"s":""));
 }
 
 /* ---------- backup / restore ---------- */
@@ -709,6 +814,8 @@ document.addEventListener("click",e=>{
   const open=e.target.closest("[data-open]");if(open){openStudent(open.dataset.open);return;}
   if(e.target.closest("[data-add]")){document.getElementById("add-names").value="";openSheet("sheet-add");setTimeout(()=>document.getElementById("add-names").focus(),300);return;}
   if(e.target.closest("[data-fbtoggle]")){showDone=!showDone;renderHome();return;}
+  const st=e.target.closest("[data-sumtag]");if(st){summaryTagFilter.has(st.dataset.sumtag)?summaryTagFilter.delete(st.dataset.sumtag):summaryTagFilter.add(st.dataset.sumtag);renderSummary();return;}
+  if(e.target.closest("[data-sumtag-clear]")){summaryTagFilter.clear();renderSummary();return;}
   const sa=e.target.closest("[data-sumact]");if(sa){sumExport(sa.dataset.sumact);return;}
   const done=e.target.closest("[data-done]");if(done){toggleDone(done.dataset.done);return;}
   if(e.target.closest("[data-delstu]")){delStudent();return;}
@@ -719,8 +826,11 @@ document.addEventListener("click",e=>{
 document.getElementById("btn-back").onclick=backHome;
 document.getElementById("btn-menu").onclick=()=>{refreshPinUI();openSheet("sheet-menu");};
 document.getElementById("btn-quick").onclick=openQuick;
+document.getElementById("btn-bulk").onclick=openBulk;
 document.getElementById("btn-summary").onclick=openSummary;
 document.getElementById("btn-sum-back").onclick=()=>{showView("view-home");renderHome();window.scrollTo(0,0);};
+document.getElementById("bulk-all").onclick=()=>{bulkSel=new Set(db.students.map(s=>s.id));renderBulkPick();document.getElementById("bulk-save").disabled=!document.getElementById("bulk-note").value.trim()||!bulkSel.size;};
+document.getElementById("bulk-none").onclick=()=>{bulkSel.clear();renderBulkPick();document.getElementById("bulk-save").disabled=true;};
 document.getElementById("range-seg").addEventListener("click",e=>{const b=e.target.closest("[data-range]");if(!b)return;summaryRange=b.dataset.range;syncRangeSeg();renderSummary();});
 document.getElementById("date-from").addEventListener("change",renderSummary);
 document.getElementById("date-to").addEventListener("change",renderSummary);
