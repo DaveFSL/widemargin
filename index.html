@@ -101,7 +101,7 @@ input,textarea{font-family:inherit}
 
 .stu-hero{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);margin-bottom:18px}
 .stu-hero .avatar{width:54px;height:54px;font-size:20px;border-radius:16px}
-.stu-hero h2{margin:0;font-family:'Fraunces',serif;font-size:22px;font-weight:600;letter-spacing:-.01em}
+.stu-hero h2{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:22px;font-weight:700;letter-spacing:-.02em}
 .stu-hero .sub{font-size:13px;color:var(--muted);margin-top:1px}
 .stu-hero .del{margin-left:auto;color:#B6433A;width:38px;height:38px;border-radius:11px;display:grid;place-items:center}
 .stu-hero .del:active{background:#FBEDEB}
@@ -183,6 +183,10 @@ textarea.note::placeholder{color:#9AA6A4}
 .lock .lglyph svg{width:32px;height:32px}
 .lock h1{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em}
 .lock .prompt{font-size:14.5px;color:var(--muted);margin-bottom:26px}
+.pinlen{display:none;gap:8px;margin-bottom:26px;background:rgba(14,93,102,.06);padding:4px;border-radius:13px}
+.pinlen.show{display:flex}
+.pinlen button{font-size:13.5px;font-weight:600;color:var(--muted);padding:8px 16px;border-radius:10px;transition:.12s}
+.pinlen button.on{background:var(--card);color:var(--teal);box-shadow:var(--shadow)}
 .dots{display:flex;gap:16px;margin-bottom:34px}
 .dots .d{width:15px;height:15px;border-radius:50%;border:2px solid #C2BBAC;transition:.15s}
 .dots .d.fill{background:var(--teal);border-color:var(--teal)}
@@ -194,6 +198,42 @@ textarea.note::placeholder{color:#9AA6A4}
 .key.blank{background:transparent;border:none;box-shadow:none;pointer-events:none}
 .key.fn{font-size:15px;font-weight:600;color:var(--muted);background:transparent;border:none;box-shadow:none}
 .lock .cancel{margin-top:24px;color:var(--teal);font-weight:600;font-size:15px;padding:10px 18px}
+
+/* ---------- segmented control ---------- */
+.seg{display:flex;gap:6px;background:rgba(14,93,102,.06);padding:4px;border-radius:13px}
+.seg button{flex:1;font-size:13px;font-weight:600;color:var(--muted);padding:9px 6px;border-radius:10px;transition:.12s;white-space:nowrap}
+.seg button.on{background:var(--card);color:var(--teal);box-shadow:var(--shadow)}
+
+/* ---------- summary ---------- */
+.sum-controls{margin-bottom:16px}
+.daterow{display:flex;gap:10px;margin-top:10px}
+.daterow .df{flex:1}
+.daterow label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:0 0 4px 2px}
+.daterow input[type=date]{width:100%;padding:10px 12px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:14px}
+.sum-stats{display:flex;gap:10px;margin-bottom:16px}
+.statcard{flex:1;background:var(--card);border:1px solid var(--line);border-radius:var(--rs);padding:13px 14px;box-shadow:var(--shadow)}
+.statcard .num{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--teal);line-height:1}
+.statcard .lbl{font-size:12px;color:var(--muted);margin-top:3px}
+.sum-actions{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.sum-actions button{flex:1;min-width:88px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-weight:600;color:var(--teal);background:rgba(14,93,102,.06);padding:11px 8px;border-radius:12px;transition:transform .1s}
+.sum-actions button svg{width:15px;height:15px;flex:none}
+.sum-actions button:active{transform:scale(.97)}
+.sum-stu{margin-bottom:18px}
+.sum-stu .sname{display:flex;align-items:center;gap:9px;margin:0 2px 9px;font-weight:700;font-size:15px}
+.sum-stu .sname .av{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;flex:none}
+.sum-stu .sname .c{font-size:12px;color:var(--muted);font-weight:500;margin-left:auto}
+
+/* ---------- follow-up extras ---------- */
+.followband .fb-toggle{margin-left:auto;font-size:10.5px;font-weight:700;color:#B9542F;background:#fff;border:1px solid #F1D9CF;padding:4px 10px;border-radius:20px;text-transform:none;letter-spacing:0}
+.followband .fb-toggle.on{background:#B9542F;color:#fff}
+.fitem.fdone .fname,.fitem.fdone .ftext{opacity:.5;text-decoration:line-through}
+.fitem.fdone .fcheck{background:#E8F3EC;border-color:#9DCBAE;color:#5a9a72}
+
+/* ---------- sheet select ---------- */
+.sheet select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;-webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236B7A78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:40px}
+.sheet .qcompose{margin-top:6px}
+.qmicnote{font-size:11.5px;color:#9AA6A4;text-align:center;margin-top:8px}
 </style>
 </head>
 <body>
@@ -203,7 +243,11 @@ textarea.note::placeholder{color:#9AA6A4}
   <div class="lglyph" id="lock-glyph"></div>
   <h1>Wide Margin</h1>
   <div class="prompt" id="lock-prompt">Enter teacher PIN</div>
-  <div class="dots" id="dots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></div>
+  <div class="pinlen" id="pinlen">
+    <button data-len="4">4 digits</button>
+    <button data-len="6">6 digits</button>
+  </div>
+  <div class="dots" id="dots"></div>
   <div class="keypad" id="keypad"></div>
   <button class="cancel" id="lock-cancel" hidden>Cancel</button>
 </div>
@@ -217,6 +261,12 @@ textarea.note::placeholder{color:#9AA6A4}
         <div><h1>Wide Margin</h1><small>Student notes, by voice</small></div>
       </div>
       <div class="spacer"></div>
+      <button class="iconbtn" id="btn-quick" aria-label="Quick note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+      </button>
+      <button class="iconbtn" id="btn-summary" aria-label="Daily and weekly summary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3M16 2v3M3 9h18"/><rect x="3" y="4" width="18" height="17" rx="2"/></svg>
+      </button>
       <button class="iconbtn" id="btn-menu" aria-label="Settings and export">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
       </button>
@@ -224,7 +274,7 @@ textarea.note::placeholder{color:#9AA6A4}
     <div id="followband-slot"></div>
     <div class="search" id="search-slot" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
-      <input id="search" type="text" placeholder="Search students" autocomplete="off">
+      <input id="search" type="text" placeholder="Search students or notes" autocomplete="off">
     </div>
     <div id="roster"></div>
   </section>
@@ -239,6 +289,30 @@ textarea.note::placeholder{color:#9AA6A4}
     </div>
     <div id="student-body"></div>
   </section>
+
+  <!-- ============ SUMMARY ============ -->
+  <section id="view-summary" class="view">
+    <div class="shead">
+      <button class="backbtn" id="btn-sum-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Class
+      </button>
+    </div>
+    <h2 style="font-family:'Fraunces',serif;font-size:23px;font-weight:600;margin:0 0 14px;letter-spacing:-.01em">Summary</h2>
+    <div class="sum-controls">
+      <div class="seg" id="range-seg">
+        <button data-range="today">Today</button>
+        <button data-range="week">This week</button>
+        <button data-range="month">This month</button>
+        <button data-range="custom">Custom</button>
+      </div>
+      <div class="daterow" id="daterow" hidden>
+        <div class="df"><label>From</label><input type="date" id="date-from"></div>
+        <div class="df"><label>To</label><input type="date" id="date-to"></div>
+      </div>
+    </div>
+    <div id="summary-body"></div>
+  </section>
 </div>
 
 <div class="scrim" id="scrim"></div>
@@ -252,6 +326,34 @@ textarea.note::placeholder{color:#9AA6A4}
   <div class="row"><button class="cancel" data-close>Cancel</button><button class="btn-primary" id="add-confirm">Add to class</button></div>
 </div>
 
+<div class="sheet" id="sheet-quick">
+  <div class="grab"></div>
+  <h2>Quick note</h2>
+  <p class="hint">Log a note without leaving the class list.</p>
+  <label>Student</label>
+  <select id="quick-student"></select>
+  <div class="compose qcompose">
+    <div class="tags" id="quick-tagrow"></div>
+    <div class="note-wrap">
+      <textarea class="note" id="quick-note" rows="2" placeholder="What happened? Tap the mic and talk, or just type…"></textarea>
+      <div class="interim" id="quick-interim"></div>
+    </div>
+    <div class="compose-foot">
+      <button class="flagbtn" id="quick-flag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        Follow-up
+      </button>
+      <div class="spacer"></div>
+      <button class="mic" id="quick-mic" aria-label="Dictate">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+      </button>
+      <button class="savebtn" id="quick-save" disabled>Save</button>
+    </div>
+    <div class="qmicnote" id="quick-micnote"></div>
+  </div>
+  <div class="row"><button class="cancel" data-close>Close</button></div>
+</div>
+
 <div class="sheet" id="sheet-menu">
   <div class="grab"></div>
   <h2>Settings</h2>
@@ -260,7 +362,20 @@ textarea.note::placeholder{color:#9AA6A4}
   <button class="menu-item" id="pin-set"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span id="pin-set-label">Set a teacher PIN<small>Lock the app on shared devices</small></span></button>
   <button class="menu-item" id="pin-lock" hidden><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span>Lock now<small>Require the PIN to reopen</small></span></button>
   <button class="menu-item danger" id="pin-off" hidden><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></span><span>Turn off PIN</span></button>
-  <div class="menu-sec">Export & data</div>
+  <div id="autolock-row" hidden>
+    <label style="display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:16px 4px 8px;text-transform:uppercase;letter-spacing:.04em">Auto-lock after idle</label>
+    <div class="seg" id="autolock-seg">
+      <button data-min="0">Off</button>
+      <button data-min="1">1 min</button>
+      <button data-min="5">5 min</button>
+      <button data-min="15">15 min</button>
+    </div>
+  </div>
+  <div class="menu-sec">Backup</div>
+  <button class="menu-item" id="bk-save"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span><span>Download backup<small>One file with all students &amp; notes</small></span></button>
+  <button class="menu-item" id="bk-restore"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span><span>Restore from backup<small>Load a backup file onto this device</small></span></button>
+  <input type="file" id="bk-file" accept="application/json,.json" hidden>
+  <div class="menu-sec">Export &amp; data</div>
   <button class="menu-item" id="exp-copy"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span><span>Copy all notes<small>To paste anywhere</small></span></button>
   <button class="menu-item" id="exp-csv"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></span><span>Download spreadsheet (CSV)<small>Date, student, tags, note</small></span></button>
   <button class="menu-item" id="exp-txt"><span class="mi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span>Download text file<small>Plain readable log</small></span></button>
@@ -271,13 +386,17 @@ textarea.note::placeholder{color:#9AA6A4}
 
 <script>
 "use strict";
-const KEY="widemargin.v1", PINKEY="widemargin.pin";
+const KEY="widemargin.v1", PINKEY="widemargin.pin", PINLENKEY="widemargin.pinlen", AUTOLOCKKEY="widemargin.autolock";
 const TAGS=["1:1","Small group","Extension","Wellbeing","Reading","Writing","Maths","Adjustment","Behaviour","Parent contact"];
 const AV=["#3E8E9C","#C9803E","#5C7E4A","#A35A6E","#4E6BA8","#A88A3E","#7A6AA6","#3E9C7C"];
 
 let db=load();
 let cur=null, compose={tags:new Set(),flag:false};
-let listening=false, recog=null, interimEl=null, noteEl=null;
+let listening=false, recog=null, interimEl=null, noteEl=null, micEl=null, micNoteEl=null;
+let qcompose={tags:new Set(),flag:false};
+let summaryRange="today", showDone=false;
+let autoLockMin=0, idleTimer=null;
+try{const al=parseInt(localStorage.getItem(AUTOLOCKKEY),10);if(!isNaN(al))autoLockMin=al;}catch(e){}
 
 /* glyph: page with a wide margin */
 const GLYPH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="10" y1="3.5" x2="10" y2="20.5"/><line x1="13" y1="9" x2="16.5" y2="9"/><line x1="13" y1="13" x2="16.5" y2="13"/></svg>';
@@ -292,6 +411,7 @@ function initials(n){const p=n.trim().split(/\s+/);return((p[0]?.[0]||"")+(p.len
 const avInit=name=>'<span style="font-family:system-ui,-apple-system,Helvetica,Arial,sans-serif;font-style:normal;font-weight:700;line-height:1">'+esc(initials(name))+'</span>';
 function avColor(id){let h=0;for(const c of id)h=(h*31+c.charCodeAt(0))>>>0;return AV[h%AV.length];}
 function notesFor(id){return db.notes.filter(n=>n.studentId===id);}
+function studentName(id){const s=db.students.find(x=>x.id===id);return s?s.name:"";}
 function lastTs(id){const n=notesFor(id);return n.length?Math.max(...n.map(x=>x.ts)):0;}
 function relTime(ts){if(!ts)return"No notes yet";const d=Date.now()-ts,day=864e5;if(d<6e4)return"Just now";if(d<36e5)return Math.floor(d/6e4)+"m ago";if(d<day)return Math.floor(d/36e5)+"h ago";if(d<2*day)return"Yesterday";if(d<7*day)return Math.floor(d/day)+"d ago";return new Date(ts).toLocaleDateString("en-AU",{day:"numeric",month:"short"});}
 function dayLabel(ts){const t=new Date(ts),n=new Date(),same=(a,b)=>a.toDateString()===b.toDateString();if(same(t,n))return"Today";const y=new Date(n);y.setDate(n.getDate()-1);if(same(t,y))return"Yesterday";return t.toLocaleDateString("en-AU",{weekday:"long",day:"numeric",month:"long"});}
@@ -299,10 +419,11 @@ const fmtTime=ts=>new Date(ts).toLocaleTimeString("en-AU",{hour:"numeric",minute
 
 /* ---------- PIN ---------- */
 function hashPin(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))>>>0;return("wm"+h.toString(16));}
-let pinHash=null;
+let pinHash=null, pinLen=4;
 try{pinHash=localStorage.getItem(PINKEY)||null;}catch(e){}
+try{const pl=parseInt(localStorage.getItem(PINLENKEY),10);if(pl===4||pl===6)pinLen=pl;}catch(e){}
 let locked=false, wasHidden=false;
-let pinMode="enter", pinBuf="", pinFirst="";
+let pinMode="enter", pinBuf="", pinFirst="", setLen=pinLen;
 
 function buildKeypad(){
   const kp=document.getElementById("keypad");
@@ -314,41 +435,50 @@ function buildKeypad(){
   }).join("");
 }
 buildKeypad();
+function activeLen(){return pinMode==="enter"?pinLen:setLen;}
+function renderDots(){const c=document.getElementById("dots");c.innerHTML=Array.from({length:activeLen()},()=>'<span class="d"></span>').join("");}
 function setDots(){const ds=document.querySelectorAll("#dots .d");ds.forEach((d,i)=>d.classList.toggle("fill",i<pinBuf.length));}
 function lockPrompt(t){document.getElementById("lock-prompt").textContent=t;}
+function updateLenToggle(){document.querySelectorAll("#pinlen [data-len]").forEach(b=>b.classList.toggle("on",+b.dataset.len===setLen));}
 function showLock(mode){
-  pinMode=mode;pinBuf="";pinFirst="";setDots();
+  pinMode=mode;pinBuf="";pinFirst="";
   const cancel=document.getElementById("lock-cancel");
-  if(mode==="enter"){lockPrompt("Enter teacher PIN");cancel.hidden=true;}
-  else if(mode==="set"){lockPrompt("Choose a 4-digit PIN");cancel.hidden=false;}
+  const lenBox=document.getElementById("pinlen");
+  if(mode==="enter"){lockPrompt("Enter teacher PIN");cancel.hidden=true;lenBox.classList.remove("show");}
+  else if(mode==="set"){setLen=pinLen;updateLenToggle();lockPrompt("Choose a "+setLen+"-digit PIN");cancel.hidden=false;lenBox.classList.add("show");}
+  renderDots();setDots();
   document.getElementById("lock").classList.add("show");
 }
 function hideLock(){document.getElementById("lock").classList.remove("show");}
 function pinPress(k){
   if(k==="del"){pinBuf=pinBuf.slice(0,-1);setDots();return;}
-  if(pinBuf.length>=4)return;
+  const len=activeLen();
+  if(pinBuf.length>=len)return;
   pinBuf+=k;setDots();
-  if(pinBuf.length===4)setTimeout(pinComplete,140);
+  if(pinBuf.length===len)setTimeout(pinComplete,140);
 }
 function pinErr(){const d=document.getElementById("dots");d.classList.add("err");setTimeout(()=>{d.classList.remove("err");pinBuf="";setDots();},420);}
 function pinComplete(){
   if(pinMode==="enter"){
-    if(hashPin(pinBuf)===pinHash){locked=false;hideLock();}else pinErr();
+    if(hashPin(pinBuf)===pinHash){locked=false;hideLock();resetIdle();}else pinErr();
   }else if(pinMode==="set"){
-    pinFirst=pinBuf;pinBuf="";setDots();pinMode="confirm";lockPrompt("Confirm your PIN");
+    pinFirst=pinBuf;pinBuf="";pinMode="confirm";document.getElementById("pinlen").classList.remove("show");renderDots();setDots();lockPrompt("Confirm your PIN");
   }else if(pinMode==="confirm"){
-    if(pinBuf===pinFirst){pinHash=hashPin(pinBuf);try{localStorage.setItem(PINKEY,pinHash);}catch(e){}
-      hideLock();refreshPinUI();toast("PIN set");}
-    else{pinMode="set";pinFirst="";pinErr();lockPrompt("Didn't match — choose again");}
+    if(pinBuf===pinFirst){pinHash=hashPin(pinBuf);pinLen=setLen;try{localStorage.setItem(PINKEY,pinHash);localStorage.setItem(PINLENKEY,String(pinLen));}catch(e){}
+      hideLock();refreshPinUI();resetIdle();toast("PIN set");}
+    else{pinMode="set";pinFirst="";document.getElementById("pinlen").classList.add("show");renderDots();pinErr();lockPrompt("Didn't match — choose again");}
   }
 }
 document.getElementById("keypad").addEventListener("click",e=>{const b=e.target.closest("[data-key]");if(b)pinPress(b.dataset.key);});
+document.getElementById("pinlen").addEventListener("click",e=>{const b=e.target.closest("[data-len]");if(!b||pinMode!=="set")return;setLen=+b.dataset.len;pinBuf="";pinFirst="";updateLenToggle();lockPrompt("Choose a "+setLen+"-digit PIN");renderDots();setDots();});
 document.getElementById("lock-cancel").onclick=()=>{if(pinHash&&locked)return;hideLock();};
 function refreshPinUI(){
   const has=!!pinHash;
-  document.getElementById("pin-set-label").innerHTML=has?'Change teacher PIN<small>Update your 4-digit PIN</small>':'Set a teacher PIN<small>Lock the app on shared devices</small>';
+  document.getElementById("pin-set-label").innerHTML=has?'Change teacher PIN<small>Update your '+pinLen+'-digit PIN</small>':'Set a teacher PIN<small>Lock the app on shared devices</small>';
   document.getElementById("pin-lock").hidden=!has;
   document.getElementById("pin-off").hidden=!has;
+  document.getElementById("autolock-row").hidden=!has;
+  updateAutoLockUI();
 }
 // auto-lock when app is backgrounded then reopened
 document.addEventListener("visibilitychange",()=>{
@@ -358,17 +488,19 @@ document.addEventListener("visibilitychange",()=>{
 
 /* ---------- HOME ---------- */
 function renderHome(){
-  const open=db.notes.filter(n=>n.flag&&!n.flagDone).sort((a,b)=>b.ts-a.ts);
+  const openCount=db.notes.filter(n=>n.flag&&!n.flagDone).length;
+  const fups=db.notes.filter(n=>n.flag&&(showDone||!n.flagDone))
+    .sort((a,b)=>studentName(a.studentId).localeCompare(studentName(b.studentId))||b.ts-a.ts);
   const slot=document.getElementById("followband-slot");
-  if(open.length){
-    slot.innerHTML=`<div class="followband"><h3>${svgFlag()} Follow-ups (${open.length})</h3>`+
-      open.map(n=>{const s=db.students.find(x=>x.id===n.studentId);if(!s)return"";
-        return `<div class="fitem"><button class="fcheck" data-done="${n.id}" aria-label="Mark done">${svgTick()}</button><div class="fbody" data-open="${s.id}"><div class="fname">${esc(s.name)}</div><div class="ftext">${esc(n.text)}</div></div></div>`;}).join("")+`</div>`;
+  if(openCount||(showDone&&fups.length)){
+    slot.innerHTML=`<div class="followband"><h3>${svgFlag()} Follow-ups (${openCount})<button class="fb-toggle ${showDone?'on':''}" data-fbtoggle>${showDone?'Hide done':'Show done'}</button></h3>`+
+      fups.map(n=>{const s=db.students.find(x=>x.id===n.studentId);if(!s)return"";
+        return `<div class="fitem ${n.flagDone?'fdone':''}"><button class="fcheck" data-done="${n.id}" aria-label="${n.flagDone?'Reopen':'Mark done'}">${svgTick()}</button><div class="fbody" data-open="${s.id}"><div class="fname">${esc(s.name)}</div><div class="ftext">${esc(n.text)}</div></div></div>`;}).join("")+`</div>`;
   }else slot.innerHTML="";
-  document.getElementById("search-slot").hidden=db.students.length<6;
+  document.getElementById("search-slot").hidden=db.students.length===0;
   const q=(document.getElementById("search").value||"").toLowerCase().trim();
   let list=db.students.slice();
-  if(q)list=list.filter(s=>s.name.toLowerCase().includes(q));
+  if(q)list=list.filter(s=>s.name.toLowerCase().includes(q)||notesFor(s.id).some(n=>n.text.toLowerCase().includes(q)));
   list.sort((a,b)=>notesFor(b.id).length-notesFor(a.id).length||lastTs(b.id)-lastTs(a.id));
   const roster=document.getElementById("roster");
   if(db.students.length===0){
@@ -386,8 +518,8 @@ function renderHome(){
 }
 
 /* ---------- STUDENT ---------- */
-function openStudent(id){cur=id;compose={tags:new Set(),flag:false};document.getElementById("view-home").classList.remove("active");document.getElementById("view-student").classList.add("active");renderStudent();window.scrollTo(0,0);}
-function backHome(){stopListening();cur=null;document.getElementById("view-student").classList.remove("active");document.getElementById("view-home").classList.add("active");renderHome();}
+function openStudent(id){stopListening();cur=id;compose={tags:new Set(),flag:false};showView("view-student");renderStudent();window.scrollTo(0,0);}
+function backHome(){stopListening();cur=null;showView("view-home");renderHome();}
 function renderStudent(){
   const s=db.students.find(x=>x.id===cur);if(!s){backHome();return;}
   const ns=notesFor(cur).sort((a,b)=>b.ts-a.ts),c=ns.length;
@@ -410,7 +542,9 @@ function noteCard(n){
   return `<div class="note-card ${n.flag&&!n.flagDone?'flagged':''}" data-card="${n.id}"><div class="nc-top"><span class="nc-time">${fmtTime(n.ts)}</span>${tags}${flag}<span class="nc-actions"><button data-edit="${n.id}" aria-label="Edit">${svgPencil()}</button><button data-del="${n.id}" aria-label="Delete">${svgTrash()}</button></span></div><div class="nc-text">${esc(n.text)}</div></div>`;
 }
 function wireCompose(){
+  listening=false;
   noteEl=document.getElementById("note");interimEl=document.getElementById("interim");
+  micEl=document.getElementById("mic");micNoteEl=document.getElementById("micnote");
   const saveBtn=document.getElementById("save");
   const refresh=()=>{saveBtn.disabled=!noteEl.value.trim();};
   noteEl.addEventListener("input",refresh);
@@ -426,20 +560,22 @@ function saveNote(){
 }
 
 /* ---------- speech ---------- */
+function speechSupported(){return !!(window.SpeechRecognition||window.webkitSpeechRecognition);}
 function setupRecog(){
+  if(!speechSupported()){if(micEl)micEl.style.display="none";if(micNoteEl)micNoteEl.textContent="Voice typing isn't available in this browser — typing works fine.";return;}
+  if(micEl)micEl.style.display="";
+  if(micNoteEl)micNoteEl.textContent="Tap the mic to talk · works best in Chrome";
+  if(recog)return;
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  const note=document.getElementById("micnote");
-  if(!SR){document.getElementById("mic").style.display="none";note.textContent="Voice typing isn't available in this browser — typing works fine.";return;}
-  note.textContent="Tap the mic to talk · works best in Chrome";
   recog=new SR();recog.lang="en-AU";recog.continuous=true;recog.interimResults=true;
-  recog.onresult=e=>{let interim="";for(let i=e.resultIndex;i<e.results.length;i++){const tr=e.results[i][0].transcript;if(e.results[i].isFinal){let v=noteEl.value;if(v&&!/\s$/.test(v))v+=" ";v+=tr.trim();noteEl.value=v.replace(/\s+([.,!?])/g,"$1");noteEl.dispatchEvent(new Event("input"));}else interim+=tr;}interimEl.textContent=interim;};
-  recog.onerror=e=>{if(e.error==="not-allowed"||e.error==="service-not-allowed"){listening=false;setMic(false);document.getElementById("micnote").textContent="Microphone blocked — allow mic access to use voice.";}};
+  recog.onresult=e=>{let interim="";for(let i=e.resultIndex;i<e.results.length;i++){const tr=e.results[i][0].transcript;if(e.results[i].isFinal){if(!noteEl)continue;let v=noteEl.value;if(v&&!/\s$/.test(v))v+=" ";v+=tr.trim();noteEl.value=v.replace(/\s+([.,!?])/g,"$1");noteEl.dispatchEvent(new Event("input"));}else interim+=tr;}if(interimEl)interimEl.textContent=interim;};
+  recog.onerror=e=>{if(e.error==="not-allowed"||e.error==="service-not-allowed"){listening=false;setMic(false);if(micNoteEl)micNoteEl.textContent="Microphone blocked — allow mic access to use voice.";}};
   recog.onend=()=>{if(listening){try{recog.start();}catch(e){}}else setMic(false);};
 }
 function toggleListen(){listening?stopListening():startListening();}
 function startListening(){if(!recog)return;listening=true;setMic(true);try{recog.start();}catch(e){}if(noteEl)noteEl.focus();}
 function stopListening(){listening=false;if(recog){try{recog.stop();}catch(e){}}if(interimEl)interimEl.textContent="";setMic(false);}
-function setMic(on){const m=document.getElementById("mic");if(m)m.classList.toggle("live",on);}
+function setMic(on){if(micEl)micEl.classList.toggle("live",on);}
 
 /* ---------- students & notes ---------- */
 function addStudents(raw){const names=[...new Set(raw.split(/[\n,]/).map(s=>s.trim()).filter(Boolean))];let added=0;for(const name of names){if(db.students.some(s=>s.name.toLowerCase()===name.toLowerCase()))continue;db.students.push({id:uid(),name,createdAt:Date.now()});added++;}save();return added;}
@@ -452,24 +588,128 @@ function startEdit(id){
   card.querySelector(".cancel").onclick=()=>renderStudent();
   card.querySelector(".savebtn").onclick=()=>{const v=ta.value.trim();if(v){n.text=v;n.edited=Date.now();save();}renderStudent();};
 }
-function toggleDone(id){const n=db.notes.find(x=>x.id===id);if(!n)return;n.flagDone=true;save();renderHome();toast("Follow-up done");}
+function toggleDone(id){const n=db.notes.find(x=>x.id===id);if(!n)return;n.flagDone=!n.flagDone;save();renderHome();toast(n.flagDone?"Follow-up done":"Follow-up reopened");}
 
 /* ---------- export ---------- */
-function buildText(){let out="WIDE MARGIN — Student notes\nExported "+new Date().toLocaleString("en-AU")+"\n";for(const s of db.students.slice().sort((a,b)=>a.name.localeCompare(b.name))){const ns=notesFor(s.id).sort((a,b)=>a.ts-b.ts);if(!ns.length)continue;out+="\n\n=== "+s.name+" ===\n";for(const n of ns){out+="\n"+new Date(n.ts).toLocaleString("en-AU")+(n.tags&&n.tags.length?"  ["+n.tags.join(", ")+"]":"")+(n.flag?(n.flagDone?"  (follow-up done)":"  (FOLLOW-UP)"):"")+"\n"+n.text+"\n";}}return out;}
-function buildCSV(){const q=v=>'"'+String(v).replace(/"/g,'""')+'"';let rows=[["Date","Time","Student","Tags","Follow-up","Note"].map(q).join(",")];const all=db.notes.slice().sort((a,b)=>a.ts-b.ts);for(const n of all){const s=db.students.find(x=>x.id===n.studentId);if(!s)continue;const d=new Date(n.ts);rows.push([d.toLocaleDateString("en-AU"),d.toLocaleTimeString("en-AU",{hour:"2-digit",minute:"2-digit"}),s.name,(n.tags||[]).join("; "),n.flag?(n.flagDone?"done":"open"):"",n.text].map(q).join(","));}return rows.join("\n");}
+function buildText(filterFn,title){filterFn=filterFn||(()=>true);let out="WIDE MARGIN — "+(title||"Student notes")+"\nExported "+new Date().toLocaleString("en-AU")+"\n";for(const s of db.students.slice().sort((a,b)=>a.name.localeCompare(b.name))){const ns=notesFor(s.id).filter(filterFn).sort((a,b)=>a.ts-b.ts);if(!ns.length)continue;out+="\n\n=== "+s.name+" ===\n";for(const n of ns){out+="\n"+new Date(n.ts).toLocaleString("en-AU")+(n.tags&&n.tags.length?"  ["+n.tags.join(", ")+"]":"")+(n.flag?(n.flagDone?"  (follow-up done)":"  (FOLLOW-UP)"):"")+"\n"+n.text+"\n";}}return out;}
+function buildCSV(filterFn){filterFn=filterFn||(()=>true);const q=v=>'"'+String(v).replace(/"/g,'""')+'"';let rows=[["Date","Time","Student","Tags","Follow-up","Note"].map(q).join(",")];const all=db.notes.filter(filterFn).slice().sort((a,b)=>a.ts-b.ts);for(const n of all){const s=db.students.find(x=>x.id===n.studentId);if(!s)continue;const d=new Date(n.ts);rows.push([d.toLocaleDateString("en-AU"),d.toLocaleTimeString("en-AU",{hour:"2-digit",minute:"2-digit"}),s.name,(n.tags||[]).join("; "),n.flag?(n.flagDone?"done":"open"):"",n.text].map(q).join(","));}return rows.join("\n");}
 function download(name,content,type){const b=new Blob([content],{type}),u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500);}
-function copyAll(){const t=buildText();if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>toast("Copied")).catch(()=>fallbackCopy(t));}else fallbackCopy(t);}
+function copyText(t){if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>toast("Copied")).catch(()=>fallbackCopy(t));}else fallbackCopy(t);}
+function copyAll(){copyText(buildText());}
 function fallbackCopy(t){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("Copied");}catch(e){toast("Copy failed");}ta.remove();}
+
+/* ---------- summary ---------- */
+function showView(id){["view-home","view-student","view-summary"].forEach(v=>document.getElementById(v).classList.toggle("active",v===id));}
+function rangeBounds(){
+  const now=new Date();
+  if(summaryRange==="today"){const s=new Date(now);s.setHours(0,0,0,0);return[s.getTime(),now.getTime()+1];}
+  if(summaryRange==="week"){const s=new Date(now);const day=(s.getDay()+6)%7;s.setDate(s.getDate()-day);s.setHours(0,0,0,0);return[s.getTime(),now.getTime()+1];}
+  if(summaryRange==="month"){const s=new Date(now.getFullYear(),now.getMonth(),1);return[s.getTime(),now.getTime()+1];}
+  const f=document.getElementById("date-from").value,t=document.getElementById("date-to").value;
+  const start=f?new Date(f+"T00:00:00").getTime():0;
+  const end=t?new Date(t+"T23:59:59.999").getTime():(now.getTime()+1);
+  return[start,end];
+}
+function rangeLabel(){return summaryRange==="today"?"Today":summaryRange==="week"?"This week":summaryRange==="month"?"This month":"Custom range";}
+function syncRangeSeg(){
+  document.querySelectorAll("#range-seg [data-range]").forEach(b=>b.classList.toggle("on",b.dataset.range===summaryRange));
+  const dr=document.getElementById("daterow");dr.hidden=summaryRange!=="custom";
+  if(summaryRange==="custom"){const f=document.getElementById("date-from"),t=document.getElementById("date-to");
+    if(!t.value)t.value=new Date().toISOString().slice(0,10);
+    if(!f.value){const d=new Date();d.setDate(d.getDate()-7);f.value=d.toISOString().slice(0,10);}}
+}
+function openSummary(){stopListening();closeSheets();summaryRange="today";syncRangeSeg();showView("view-summary");renderSummary();window.scrollTo(0,0);}
+function renderSummary(){
+  const[a,b]=rangeBounds();const inR=n=>n.ts>=a&&n.ts<=b;
+  const notes=db.notes.filter(inR);
+  const fups=notes.filter(n=>n.flag&&!n.flagDone).length;
+  const stuCount=new Set(notes.map(n=>n.studentId)).size;
+  let h=`<div class="sum-stats"><div class="statcard"><div class="num">${notes.length}</div><div class="lbl">${notes.length===1?"note":"notes"}</div></div><div class="statcard"><div class="num">${stuCount}</div><div class="lbl">${stuCount===1?"student":"students"}</div></div><div class="statcard"><div class="num">${fups}</div><div class="lbl">open follow-up${fups===1?"":"s"}</div></div></div>`;
+  h+=`<div class="sum-actions"><button data-sumact="copy">${svgCopy()} Copy</button><button data-sumact="csv">${svgFile()} CSV</button><button data-sumact="txt">${svgFile()} Text</button></div>`;
+  if(!notes.length){h+=`<div class="empty" style="padding:26px 10px"><div class="big">${svgCal()}</div><h2>Nothing in this range</h2><p>Pick a different range above, or log some notes first.</p></div>`;document.getElementById("summary-body").innerHTML=h;return;}
+  for(const s of db.students.slice().sort((x,y)=>x.name.localeCompare(y.name))){
+    const ns=notesFor(s.id).filter(inR).sort((x,y)=>y.ts-x.ts);if(!ns.length)continue;
+    h+=`<div class="sum-stu"><div class="sname"><span class="av" style="background:${avColor(s.id)}">${avInit(s.name)}</span>${esc(s.name)}<span class="c">${ns.length} ${ns.length===1?"note":"notes"}</span></div>`;
+    for(const n of ns)h+=noteCardRO(n);
+    h+=`</div>`;
+  }
+  document.getElementById("summary-body").innerHTML=h;
+}
+function noteCardRO(n){
+  const tags=(n.tags||[]).map(t=>`<span class="nc-tag">${esc(t)}</span>`).join("");
+  let flag="";if(n.flag)flag=n.flagDone?`<span class="nc-flag done">${svgTick()} Done</span>`:`<span class="nc-flag">${svgFlag()} Follow-up</span>`;
+  return `<div class="note-card ${n.flag&&!n.flagDone?"flagged":""}"><div class="nc-top"><span class="nc-time">${fmtTime(n.ts)}</span>${tags}${flag}</div><div class="nc-text">${esc(n.text)}</div></div>`;
+}
+function sumExport(kind){
+  const[a,b]=rangeBounds();const inR=n=>n.ts>=a&&n.ts<=b;
+  if(!db.notes.some(inR)){toast("No notes in this range");return;}
+  const label=rangeLabel(),slug=label.toLowerCase().replace(/\s+/g,"-");
+  if(kind==="copy")copyText(buildText(inR,"Summary — "+label));
+  else if(kind==="csv")download("wide-margin-"+slug+".csv",buildCSV(inR),"text/csv");
+  else download("wide-margin-"+slug+".txt",buildText(inR,"Summary — "+label),"text/plain");
+}
+
+/* ---------- quick note ---------- */
+function openQuick(){
+  if(!db.students.length){toast("Add a student first");return;}
+  stopListening();qcompose={tags:new Set(),flag:false};
+  const sel=document.getElementById("quick-student");
+  sel.innerHTML=db.students.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
+  if(cur)sel.value=cur;
+  document.getElementById("quick-tagrow").innerHTML=TAGS.map(t=>`<button class="tag" data-qtag="${esc(t)}">${esc(t)}</button>`).join("");
+  const note=document.getElementById("quick-note");note.value="";note.style.height="auto";
+  document.getElementById("quick-interim").textContent="";
+  document.getElementById("quick-flag").classList.remove("on");
+  document.getElementById("quick-save").disabled=true;
+  wireQuick();openSheet("sheet-quick");setTimeout(()=>note.focus(),300);
+}
+function wireQuick(){
+  listening=false;
+  noteEl=document.getElementById("quick-note");interimEl=document.getElementById("quick-interim");
+  micEl=document.getElementById("quick-mic");micNoteEl=document.getElementById("quick-micnote");
+  const saveBtn=document.getElementById("quick-save");
+  noteEl.oninput=()=>{saveBtn.disabled=!noteEl.value.trim();noteEl.style.height="auto";noteEl.style.height=noteEl.scrollHeight+"px";};
+  document.getElementById("quick-tagrow").querySelectorAll("[data-qtag]").forEach(b=>{b.onclick=()=>{const t=b.dataset.qtag;if(qcompose.tags.has(t)){qcompose.tags.delete(t);b.classList.remove("on");}else{qcompose.tags.add(t);b.classList.add("on");}};});
+  const flagBtn=document.getElementById("quick-flag");flagBtn.onclick=()=>{qcompose.flag=!qcompose.flag;flagBtn.classList.toggle("on",qcompose.flag);};
+  document.getElementById("quick-mic").onclick=toggleListen;
+  saveBtn.onclick=saveQuick;setupRecog();
+}
+function saveQuick(){
+  const note=document.getElementById("quick-note"),text=note.value.trim();if(!text)return;stopListening();
+  const sid=document.getElementById("quick-student").value;if(!sid)return;
+  db.notes.push({id:uid(),studentId:sid,text,tags:[...qcompose.tags],flag:qcompose.flag,flagDone:false,ts:Date.now()});
+  save();closeSheets();if(cur)renderStudent();else renderHome();toast("Note saved");
+}
+
+/* ---------- backup / restore ---------- */
+function downloadBackup(){const payload={app:"widemargin",version:1,exportedAt:new Date().toISOString(),data:db};download("wide-margin-backup-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify(payload,null,2),"application/json");}
+function restoreBackup(file){
+  const r=new FileReader();
+  r.onload=()=>{let parsed;try{parsed=JSON.parse(r.result);}catch(e){toast("That file isn't a valid backup");return;}
+    const d=parsed&&parsed.data?parsed.data:parsed;
+    if(!d||!Array.isArray(d.students)||!Array.isArray(d.notes)){toast("That file isn't a valid backup");return;}
+    if(!confirm("Restore this backup? It will replace everything currently on this device with "+d.students.length+" student(s) and "+d.notes.length+" note(s)."))return;
+    db={students:d.students,notes:d.notes};save();closeSheets();showView("view-home");renderHome();toast("Backup restored");};
+  r.onerror=()=>toast("Couldn't read that file");
+  r.readAsText(file);
+}
+
+/* ---------- auto-lock ---------- */
+function setAutoLock(min){autoLockMin=min;try{localStorage.setItem(AUTOLOCKKEY,String(min));}catch(e){}updateAutoLockUI();resetIdle();toast(min?"Auto-lock: "+min+" min":"Auto-lock off");}
+function updateAutoLockUI(){document.querySelectorAll("#autolock-seg [data-min]").forEach(b=>b.classList.toggle("on",+b.dataset.min===autoLockMin));}
+function resetIdle(){if(idleTimer){clearTimeout(idleTimer);idleTimer=null;}if(autoLockMin>0&&pinHash&&!locked){idleTimer=setTimeout(()=>{if(pinHash){locked=true;showLock("enter");}},autoLockMin*60000);}}
 
 /* ---------- sheets / toast ---------- */
 function openSheet(id){document.getElementById("scrim").classList.add("open");document.getElementById(id).classList.add("open");}
-function closeSheets(){document.getElementById("scrim").classList.remove("open");document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("open"));}
+function closeSheets(){stopListening();document.getElementById("scrim").classList.remove("open");document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("open"));if(cur){noteEl=document.getElementById("note");interimEl=document.getElementById("interim");micEl=document.getElementById("mic");micNoteEl=document.getElementById("micnote");}}
 let toastT;function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),1900);}
 
 /* ---------- events ---------- */
 document.addEventListener("click",e=>{
   const open=e.target.closest("[data-open]");if(open){openStudent(open.dataset.open);return;}
   if(e.target.closest("[data-add]")){document.getElementById("add-names").value="";openSheet("sheet-add");setTimeout(()=>document.getElementById("add-names").focus(),300);return;}
+  if(e.target.closest("[data-fbtoggle]")){showDone=!showDone;renderHome();return;}
+  const sa=e.target.closest("[data-sumact]");if(sa){sumExport(sa.dataset.sumact);return;}
   const done=e.target.closest("[data-done]");if(done){toggleDone(done.dataset.done);return;}
   if(e.target.closest("[data-delstu]")){delStudent();return;}
   const ed=e.target.closest("[data-edit]");if(ed){startEdit(ed.dataset.edit);return;}
@@ -478,11 +718,21 @@ document.addEventListener("click",e=>{
 });
 document.getElementById("btn-back").onclick=backHome;
 document.getElementById("btn-menu").onclick=()=>{refreshPinUI();openSheet("sheet-menu");};
+document.getElementById("btn-quick").onclick=openQuick;
+document.getElementById("btn-summary").onclick=openSummary;
+document.getElementById("btn-sum-back").onclick=()=>{showView("view-home");renderHome();window.scrollTo(0,0);};
+document.getElementById("range-seg").addEventListener("click",e=>{const b=e.target.closest("[data-range]");if(!b)return;summaryRange=b.dataset.range;syncRangeSeg();renderSummary();});
+document.getElementById("date-from").addEventListener("change",renderSummary);
+document.getElementById("date-to").addEventListener("change",renderSummary);
+document.getElementById("autolock-seg").addEventListener("click",e=>{const b=e.target.closest("[data-min]");if(b)setAutoLock(+b.dataset.min);});
+document.getElementById("bk-save").onclick=()=>{closeSheets();downloadBackup();toast("Backup downloaded");};
+document.getElementById("bk-restore").onclick=()=>document.getElementById("bk-file").click();
+document.getElementById("bk-file").onchange=e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value="";};
 document.getElementById("search").addEventListener("input",renderHome);
 document.getElementById("add-confirm").onclick=()=>{const n=addStudents(document.getElementById("add-names").value);closeSheets();if(n>0){renderHome();toast(n+" student"+(n>1?"s":"")+" added");}else toast("No new names");};
 document.getElementById("pin-set").onclick=()=>{closeSheets();showLock("set");};
 document.getElementById("pin-lock").onclick=()=>{closeSheets();locked=true;showLock("enter");};
-document.getElementById("pin-off").onclick=()=>{if(confirm("Turn off the teacher PIN? The app will open without a lock.")){pinHash=null;try{localStorage.removeItem(PINKEY);}catch(e){}refreshPinUI();closeSheets();toast("PIN turned off");}};
+document.getElementById("pin-off").onclick=()=>{if(confirm("Turn off the teacher PIN? The app will open without a lock.")){pinHash=null;try{localStorage.removeItem(PINKEY);}catch(e){}refreshPinUI();resetIdle();closeSheets();toast("PIN turned off");}};
 document.getElementById("exp-copy").onclick=()=>{if(!db.notes.length){toast("No notes yet");return;}closeSheets();copyAll();};
 document.getElementById("exp-csv").onclick=()=>{if(!db.notes.length){toast("No notes yet");return;}closeSheets();download("wide-margin-export.csv",buildCSV(),"text/csv");};
 document.getElementById("exp-txt").onclick=()=>{if(!db.notes.length){toast("No notes yet");return;}closeSheets();download("wide-margin-notes.txt",buildText(),"text/plain");};
@@ -496,11 +746,17 @@ function svgTick(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentC
 function svgTrash(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';}
 function svgPencil(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';}
 function svgPeople(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';}
+function svgCopy(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';}
+function svgFile(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';}
+function svgCal(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3M16 2v3M3 9h18"/><rect x="3" y="4" width="18" height="17" rx="2"/></svg>';}
 
 /* ---------- boot ---------- */
+["click","keydown","touchstart","mousemove","scroll"].forEach(ev=>document.addEventListener(ev,()=>{if(!locked)resetIdle();},{passive:true}));
 refreshPinUI();
+updateAutoLockUI();
 renderHome();
 if(pinHash){locked=true;showLock("enter");}
+else resetIdle();
 </script>
 </body>
 </html>
